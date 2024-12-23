@@ -21,7 +21,7 @@ local Maid = require(script:FindFirstChild("Maid"))
 local Curvy = require(script:FindFirstChild("Curvy"))
 local Text = require(script:FindFirstChild("Text"))
 
-local Camera = game.Workspace.CurrentCamera
+-- local Camera = game.Workspace.CurrentCamera
 
 Maid.new()
 
@@ -30,7 +30,7 @@ Maid.new()
 local function cleanPPE()
 	task.spawn(function()
 		for _, ppe in Lighting:GetChildren() do
-			if ppe:IsA("BlurEffect") and ppe.Name == "Blur" then
+			if ppe:IsA("BlurEffect") or ppe.Name == "Blur" then
 				ppe:Destroy()
 			end
 		end
@@ -66,31 +66,6 @@ function UIEffect.BlurEffect(value)
 			cleanPPE()
 		end
 	end)
-	return value
-end
-
---[=[
-	@function Zoom
-		@wihin UIEffect
-		@param value boolean
-		@return boolean?
---]=]
-function UIEffect:Zoom(value)
-	task.spawn(function()
-		local Blur = Instance.new("BlurEffect")
-		Blur.Parent = Lighting
-		if value == true then
-			Curvy:Curve(Blur, TweenInfo.new(0.3), "Size", 60)
-			Curvy:Curve(Camera, TweenInfo.new(0.3), "FieldOfView", 50)
-			SoundManager.Play("ZoomIn", script.UISounds)
-		else
-			Curvy:Curve(Blur, TweenInfo.new(0.3), "Size", 0)
-			Curvy:Curve(Camera, TweenInfo.new(0.3), "FieldOfView", 70)
-			SoundManager.Play("ZoomOut", script.UISounds)
-			cleanPPE()
-		end
-	end)
-
 	return value
 end
 
